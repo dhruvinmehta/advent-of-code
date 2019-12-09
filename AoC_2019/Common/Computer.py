@@ -12,7 +12,14 @@ class Computer:
             pointer = self.instructions[self.pointer + offset]
         elif mode == 1:
             pointer = self.pointer + offset
+        elif mode == 2:
+            pointer = self.relative_base + self.instructions[self.pointer + offset]
+        self.increase(pointer)
         return pointer
+
+    def increase(self, index):
+        while index > len(self.instructions) - 1:
+            self.instructions.append(0)
 
     @staticmethod
     def decode(opcode):
@@ -67,7 +74,12 @@ class Computer:
             self.instructions[self.mem_address(3, kwargs.get('mode3'))] = 0
         self.pointer += 4
 
-    OPCODE_MAP = {1: opcode1, 2: opcode2, 3: opcode3, 4: opcode4, 5: opcode5, 6: opcode6, 7: opcode7, 8: opcode8}
+    def opcode9(self, **kwargs):
+        self.relative_base += self.first_pos(kwargs)
+        self.pointer += 2
+
+    OPCODE_MAP = {1: opcode1, 2: opcode2, 3: opcode3, 4: opcode4, 5: opcode5, 6: opcode6, 7: opcode7,
+                  8: opcode8, 9: opcode9}
 
     def execute(self, input_val=1, is_amplifier=False, in_phase=False, phase_val=0, feedback=False):
         while self.instructions[self.pointer] != 99:
