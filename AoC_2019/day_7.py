@@ -3,7 +3,7 @@
 
 
 import itertools
-from AoC_2019.day_5 import Computer
+from AoC_2019.Common.Computer import Computer
 
 
 def read_input_file(file):
