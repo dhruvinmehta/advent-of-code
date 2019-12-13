@@ -11,13 +11,13 @@ def read_input_file(file):
 
 
 # Unit tests
-assert len(str(Computer([1102, 34915192, 34915192, 7, 4, 7, 99, 0]).execute()[0])) == 16
-assert Computer([104, 1125899906842624, 99]).execute() == (1125899906842624, True)
+assert len(str(Computer([1102, 34915192, 34915192, 7, 4, 7, 99, 0]).execute())) == 16
+assert Computer([104, 1125899906842624, 99]).execute() == 1125899906842624
 
 
 def solution():
-    print("Part 1 ans", Computer(read_input_file("Files/day-9-input.txt")).execute()[0])
-    print("Part 2 ans", Computer(read_input_file("Files/day-9-input.txt")).execute(2)[0])
+    print("Part 1 ans", Computer(read_input_file("Files/day-9-input.txt")).execute())
+    print("Part 2 ans", Computer(read_input_file("Files/day-9-input.txt")).execute(2))
 
 
 solution()

@@ -22,19 +22,18 @@ def feedback_thruster_output(instructions):
 
 
 def feedback_amplifier(instructions, phases):
-    computers = [Computer(instructions) for _ in range(5)]
-    halted = [False] * 5
+    computers = [Computer(instructions, True) for _ in range(5)]
+
+    for index, phase in enumerate(phases):
+        computers[index].input.put(phase)
+
     amp_index = 0
     input_val = 0
-    in_phase = False
     for i in range(5):
-        while not halted[i]:
-            output, halted[i] = computers[amp_index].execute(input_val, True, in_phase, phases[amp_index], True)
-            input_val = output
+        while not computers[i].halted():
+            computers[amp_index].input.put(input_val)
+            input_val = computers[amp_index].execute(input_val)
             amp_index = (amp_index + 1) % 5
-
-            if amp_index == 0:
-                in_phase = True
     return input_val
 
 
@@ -49,7 +48,9 @@ def thruster_output(instructions):
 def amplifier(instructions, phases):
     input_val = 0
     for phase in phases:
-        input_val = Computer(instructions).execute(input_val, True, False, phase)[0]
+        computer = Computer(instructions)
+        computer.input.put(phase)
+        input_val = computer.execute(input_val)
     return input_val
 
 

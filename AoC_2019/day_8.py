@@ -32,13 +32,13 @@ def password_image(pixels, width, height):
 
     result = ''
     for i in range(height):
-        result += ''.join(image[i * width: (i + 1) * width]) + "\n"
+        result += ' '.join(image[i * width: (i + 1) * width]) + "\n"
     return result
 
 
 # Unit tests
 assert get_layers("123456789012", 3, 2) == [[1, 2, 3, 4, 5, 6], [7, 8, 9, 0, 1, 2]]
-assert password_image("0222112222120000", 2, 2) == " #\n# \n"
+assert password_image("0222112222120000", 2, 2) == '  #\n#  \n'
 
 
 def solution():
