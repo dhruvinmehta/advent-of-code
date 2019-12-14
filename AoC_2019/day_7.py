@@ -25,13 +25,13 @@ def feedback_amplifier(instructions, phases):
     computers = [Computer(instructions, True) for _ in range(5)]
 
     for index, phase in enumerate(phases):
-        computers[index].input.put(phase)
+        computers[index].set_input(phase)
 
     amp_index = 0
     input_val = 0
     for i in range(5):
         while not computers[i].halted():
-            computers[amp_index].input.put(input_val)
+            computers[amp_index].set_input(input_val)
             input_val = computers[amp_index].execute(input_val)
             amp_index = (amp_index + 1) % 5
     return input_val
@@ -49,7 +49,7 @@ def amplifier(instructions, phases):
     input_val = 0
     for phase in phases:
         computer = Computer(instructions)
-        computer.input.put(phase)
+        computer.set_input(phase)
         input_val = computer.execute(input_val)
     return input_val
 

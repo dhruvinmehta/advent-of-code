@@ -13,7 +13,7 @@ class Robot:
         self.position = (0, 0)
         self.output = []
         self.computer = computer
-        self.computer.input.put(start_panel)
+        self.computer.set_input(start_panel)
 
     def paint_panel(self):
         if len(self.output) % 2 == 0:
@@ -21,7 +21,7 @@ class Robot:
             self.dx = (self.dx + (1 if self.output[-1] else -1)) % len(Robot.DIRECTIONS)
             self.position = (self.position[0] + Robot.DIRECTIONS[self.dx][0],
                              self.position[1] + self.DIRECTIONS[self.dx][1])
-            self.computer.input.put(self.input_value())
+            self.computer.set_input(self.input_value())
 
     def input_value(self):
         return self.panels[self.position] if self.position in self.panels else 0

@@ -1,14 +1,17 @@
-from queue import Queue
-
 class Computer:
     """ Intcode computer"""
     def __init__(self, instructions, feedback=False):
         self.instructions = instructions[:]
         self.pointer = 0
         self.output = []
-        self.input = Queue()
+        self.input = []
         self.relative_base = 0
         self.feedback = feedback
+
+    def set_input(self, input_val, reset=False):
+        if reset:
+            self.input = []
+        self.input.append(input_val)
 
     def halted(self):
         return self.instructions[self.pointer] == 99
@@ -48,7 +51,7 @@ class Computer:
         self.pointer += 4
 
     def opcode3(self, **kwargs):
-        self.instructions[self.mem_address(1, kwargs.get('mode1'))] = self.input.get()
+        self.instructions[self.mem_address(1, kwargs.get('mode1'))] = self.input.pop(0)
         self.pointer += 2
 
     def opcode4(self, **kwargs):
@@ -92,8 +95,8 @@ class Computer:
         while self.instructions[self.pointer] != 99:
             mode1, mode2, mode3, opcode = self.decode(self.instructions[self.pointer])
 
-            if opcode == 3 and self.input.empty():
-                self.input.put(input_val)
+            if opcode == 3 and len(self.input) == 0:
+                self.set_input(input_val)
             Computer.OPCODE_MAP[opcode](self, mode1=mode1, mode2=mode2, mode3=mode3)
 
             if opcode == 4 and self.feedback:
